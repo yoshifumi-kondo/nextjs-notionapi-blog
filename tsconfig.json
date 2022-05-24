@@ -19,7 +19,8 @@
       "@/components/*": ["components/*"],
       "@/styles/*": ["styles/*"],
       "@/types/*": ["../types/*"],
-      "@/public/*": ["./public/*"]
+      "@/public/*": ["./public/*"],
+      "@/utils/*": ["./utils/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/api/notion/server-constants.js"],
