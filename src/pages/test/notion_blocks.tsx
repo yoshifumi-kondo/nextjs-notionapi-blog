@@ -21,7 +21,7 @@ const Page: FC<PagePrpps> = ({ blocks }) => {
           <div className='border-8 border-slate-700 rounded-lg shadow-lg bg-white w-full flex-wrap'>
             <div className='px-8 pt-8 pb-4 bg-slate-700 flex flex-col gap-2'>
               <h1 className='text-2xl md:text-4xl text-white'>{title}</h1>
-              <div className='flex gap-x-4 '>
+              <div className='flex gap-x-4 flex-col md:flex-row '>
                 <h2 className='text-gray-300'>Date:2022-02-01</h2>
                 <h2 className='text-gray-300 '>Last Edit:2022-02-01</h2>
               </div>

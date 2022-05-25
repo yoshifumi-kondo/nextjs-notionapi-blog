@@ -13,7 +13,7 @@ interface ArticleLinkProps {
 
 export const ArticleLinkLeft: FC<ArticleLinkProps> = ({ title, href, tags, date }) => {
   return (
-    <Link href={'/tsss'} passHref>
+    <Link href={href} passHref>
       <div className='flex gap-8 md:gap-12  items-center cursor-pointer'>
         <div className='w-24 md:w-36 p-2  flex justify-center items-center rounded-full shadow-lg bg-white border-8 border-gray-400 '>
           <Image alt='img' width={400} height={400} objectFit='cover' src={'/icon.png'} />
@@ -34,7 +34,7 @@ export const ArticleLinkLeft: FC<ArticleLinkProps> = ({ title, href, tags, date 
 
 export const ArticleLinkRight: FC<ArticleLinkProps> = ({ title, href, tags, date }) => {
   return (
-    <Link href={'/tsss'} passHref>
+    <Link href={href} passHref>
       <div className='flex gap-8 md:gap-12  items-center cursor-pointer'>
         <div className='relative w-full bg-white border-8 flex flex-col gap-3 hover:gap-5  p-4 rounded-x balloon-right rounded-lg bottom-5 border-yellow-400 transform hover:scale-105 ease-in-out duration-300 hover:bg-yellow-50 shadow-lg'>
           <h2 className='text-sm md:text-lg text-gray-600'>{date}</h2>

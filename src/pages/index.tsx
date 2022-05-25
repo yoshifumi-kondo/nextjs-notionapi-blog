@@ -16,13 +16,13 @@ const Home: NextPage<Props> = ({ posts }) => {
         <div className='w-screen md:w-2/3  border-r-2 p-4 md:p-8 flex flex-col gap-8'>
           <ArticleLinkLeft
             title={'this is test for title'}
-            href={'/tesss'}
+            href={'/test/notion_blocks'}
             tags={['AWS', 'Docker']}
             date={'2022-01-04'}
           />
           <ArticleLinkRight
             title={'this is test for title'}
-            href={'/tesss'}
+            href={'/test/notion_blocks'}
             tags={['Nodejs', 'Nextjs']}
             date={'2022-01-02'}
           />
