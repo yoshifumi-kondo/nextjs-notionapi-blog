@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import React from 'react';
+import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import About_toppage from '@/components/templates/About_toppage';
 import Contact_info from '@/components/templates/Contact_info';
 import Layout from '@/components/templates/Layout';
@@ -10,13 +11,19 @@ const contact: NextPage = () => {
     <Layout title='contact'>
       <div className='m-4 flex flex-col gap-4 justify-center'>
         <div className=' max-w-xl'>
-          <About_toppage />
+          <ScrollRevealContainer>
+            <About_toppage />
+          </ScrollRevealContainer>
         </div>
         <div className=' max-w-xl'>
-          <TechStack_toppage />
+          <ScrollRevealContainer delay={500}>
+            <TechStack_toppage />
+          </ScrollRevealContainer>
         </div>
         <div className=' max-w-xl'>
-          <Contact_info />
+          <ScrollRevealContainer delay={800}>
+            <Contact_info />
+          </ScrollRevealContainer>
         </div>
       </div>
     </Layout>

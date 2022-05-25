@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { FC } from 'react';
 import TagButton from '@/components/atoms/TagButton';
 
-interface ArticleLinkProps {
+export interface ArticleLinkProps {
   title: string;
   href: string | URL;
   tags: string[];
