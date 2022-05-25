@@ -5,7 +5,7 @@ const PageLinks: FC = () => {
   return (
     <>
       <PageLinkButton href={'./'} text={'Home'} />
-      <PageLinkButton href={'./'} text={'Contact'} />
+      <PageLinkButton href={'/contact'} text={'Contact'} />
     </>
   );
 };

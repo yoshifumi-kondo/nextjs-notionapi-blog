@@ -5,7 +5,6 @@ import About_toppage from '@/components/templates/About_toppage';
 import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
-import TechStack_toppage from '@/components/templates/TechStack_toppage';
 
 interface Props {
   posts: QueryDatabaseResponse;
@@ -30,7 +29,6 @@ const Home: NextPage<Props> = ({ posts }) => {
         </div>
         <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>
           <About_toppage />
-          <TechStack_toppage />
           <Tags_toppage />
           <Archive_toppage />
         </div>
