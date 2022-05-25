@@ -2,10 +2,16 @@ import Link from 'next/link';
 import React, { FC } from 'react';
 
 const SNSbar: FC<{ color: 'navy' | 'yellow' }> = () => {
+  // .env url make unsecure error
+  // const url_youtube = URL_YOUTUBE;
+  // const url_instagram = URL_INSTAGRAM;
+  // const url_linkedin = URL_LINKEDIN;
+  // const url_twitter = URL_TWITTER;
+  // const url_github = URL_GITHUB;
   const url_youtube = 'https://www.youtube.com/channel/UCWtLm7TcA2jF9PbTuGFnBjw';
-  const url_instagram = '';
-  const url_linkedin = '';
-  const url_twitter = '';
+  const url_instagram = 'https://www.instagram.com/kon.taco/';
+  const url_linkedin = 'https://www.linkedin.com/in/kontaco';
+  const url_twitter = 'URL_TWITTER';
   const url_github = 'https://github.com/yoshifumi-kondo';
 
   return (

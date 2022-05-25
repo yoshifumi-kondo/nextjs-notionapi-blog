@@ -18,7 +18,7 @@ const Layout: FC<LayoutProps> = ({ children, title }) => {
       </Head>
       <header>
         <nav className={'bg-gray-800 w-screen overflow-hidden fixed left-0 top-0 shadow-lg z-50'}>
-          <div className={'flex space-x-4 p-2 justify-between items-center h-16'}>
+          <div className={'flex space-x-4 py-2 justify-between items-center h-16 px-4 md:px-8'}>
             <div className={'flex justify-around gap-4 items-center rounded'}>
               <div className='h-12 w-12 '>
                 <Image
