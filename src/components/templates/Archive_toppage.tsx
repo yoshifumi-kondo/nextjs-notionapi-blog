@@ -19,7 +19,7 @@ const Archive_toppage: FC = () => {
   return (
     <div className='border-8 border-slate-700 rounded-lg shadow bg-white w-full p-8'>
       <h1 className='text-2xl text-gray-900 w-full text-center md:text-left'>Archive</h1>
-      <div className='flex flex-col justify-center md:justify-start flex-wrap gap-2 my-4 items-center md:items-start'>
+      <div className='flex flex-col-reverse justify-center md:justify-start flex-wrap gap-2 my-4 items-center md:items-start'>
         {DateArray.map((date, i) => (
           <div key={i}>
             <ArchiveLinkButton text={date} href={'./'} />
