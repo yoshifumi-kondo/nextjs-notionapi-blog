@@ -1,30 +1,42 @@
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { NextPage } from 'next';
-import { queryDatabase } from 'api/notion_api';
+import { ArticleLinkLeft, ArticleLinkRight } from '@/components/molecules/ArticleLinks';
+import About_toppage from '@/components/templates/About_toppage';
+import Archive_toppage from '@/components/templates/Archive_toppage';
+import Layout from '@/components/templates/Layout';
+import Tags_toppage from '@/components/templates/Tagas_toppage';
+import TechStack_toppage from '@/components/templates/TechStack_toppage';
 
 interface Props {
   posts: QueryDatabaseResponse;
 }
 const Home: NextPage<Props> = ({ posts }) => {
   return (
-    <div className='grid grid-cols-3 gap-2 w-screen px-4 my-2'>
-      <div className={'md:col-span-2 col-span-3 row-span-full '}>
-        {posts.results.map((v, i) => (
-          <div key={i}> {v.id}</div>
-        ))}
+    <Layout title='KONTACO-BLOG'>
+      <div className='flex flex-col md:flex-row w-screen mt-8'>
+        <div className='w-screen md:w-2/3  border-r-2 p-4 md:p-8 flex flex-col gap-8'>
+          <ArticleLinkLeft
+            title={'this is test for title'}
+            href={'/tesss'}
+            tags={['AWS', 'Docker']}
+            date={'2022-01-04'}
+          />
+          <ArticleLinkRight
+            title={'this is test for title'}
+            href={'/tesss'}
+            tags={['Nodejs', 'Nextjs']}
+            date={'2022-01-02'}
+          />
+        </div>
+        <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>
+          <About_toppage />
+          <TechStack_toppage />
+          <Tags_toppage />
+          <Archive_toppage />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
 export default Home;
-
-export async function getStaticProps() {
-  const [posts] = await Promise.all([queryDatabase()]);
-  return {
-    props: {
-      posts,
-    },
-    revalidate: 3,
-  };
-}
