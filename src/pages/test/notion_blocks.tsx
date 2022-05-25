@@ -16,10 +16,10 @@ const Page: FC<PagePrpps> = ({ blocks }) => {
   const tags = ['AWS', 'CSS'];
   return (
     <Layout title='KONTACO-BLOG'>
-      <div className='flex flex-col md:flex-row w-screen mt-8'>
+      <div className='flex flex-col md:flex-row w-screen mt-4 md:mt-8'>
         <div className='w-screen md:w-2/3  border-r-2 p-4  flex flex-col gap-8'>
-          <div className='border-8 border-slate-600 rounded-lg shadow-lg bg-white w-full flex-wrap'>
-            <div className='px-8 pt-8 pb-4 bg-slate-600 flex flex-col gap-2'>
+          <div className='border-8 border-slate-700 rounded-lg shadow-lg bg-white w-full flex-wrap'>
+            <div className='px-8 pt-8 pb-4 bg-slate-700 flex flex-col gap-2'>
               <h1 className='text-2xl md:text-4xl text-white'>{title}</h1>
               <div className='flex gap-x-4 '>
                 <h2 className='text-gray-300'>Date:2022-02-01</h2>
@@ -32,8 +32,8 @@ const Page: FC<PagePrpps> = ({ blocks }) => {
               </div>
             </div>
 
-            <div className='p-8'>
-              <NotionListBlockComponent blocks={blocks} />
+            <div className='p-4 md:p-8 flex gap-2 flex-col'>
+              <NotionListBlockComponent blocks={blocks} node={0} />
             </div>
           </div>
         </div>
