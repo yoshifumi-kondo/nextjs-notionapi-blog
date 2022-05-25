@@ -1,14 +1,10 @@
 import { NextPage } from 'next';
-import dynamic from 'next/dist/shared/lib/dynamic';
 import React from 'react';
+import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import About_toppage from '@/components/templates/About_toppage';
 import Contact_info from '@/components/templates/Contact_info';
 import Layout from '@/components/templates/Layout';
 import TechStack_toppage from '@/components/templates/TechStack_toppage';
-
-const ScrollRevealContainer = dynamic(import('@/components/atoms/ScrollRevealContainer'), {
-  ssr: false,
-});
 
 const contact: NextPage = () => {
   return (

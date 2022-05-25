@@ -1,6 +1,6 @@
-import dynamic from 'next/dynamic';
 import React, { FC } from 'react';
 import NotionListBlockComponent from '@/components/NotionListBlockComponent';
+import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import TagButton from '@/components/atoms/TagButton';
 import About_toppage from '@/components/templates/About_toppage';
 import Archive_toppage from '@/components/templates/Archive_toppage';
@@ -11,10 +11,6 @@ import { ListBlockChildrenNodeResponse, retriveBlocksWithChildren } from 'api/no
 interface PagePrpps {
   blocks: ListBlockChildrenNodeResponse;
 }
-
-const ScrollRevealContainer = dynamic(import('@/components/atoms/ScrollRevealContainer'), {
-  ssr: false,
-});
 
 const Page: FC<PagePrpps> = ({ blocks }) => {
   const title = 'This is sample title';

@@ -1,5 +1,4 @@
 import { FC, useRef, useEffect, ReactNode } from 'react';
-import scrollReveal from 'scrollreveal';
 
 interface ScrollRevealContainerProps {
   children: ReactNode;
@@ -18,22 +17,32 @@ const ScrollRevealContainer: FC<ScrollRevealContainerProps> = ({
   delay = 40,
   rotate = { x: 0, y: 0, z: 0 },
 }) => {
-  const sectionRef = useRef<HTMLElement>(null);
-
+  const sectionRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (sectionRef.current)
-      scrollReveal().reveal(sectionRef.current, {
-        delay,
-        opacity: 0,
-        origin:
-          move === 'left' ? 'left' : move === 'right' ? 'right' : move === 'top' ? 'top' : 'bottom',
-        distance: '40px',
-        duration: 1500,
-        easing: 'ease-in-out',
-        rotate,
-      });
+    async function animate() {
+      if (sectionRef.current) {
+        //Dynamic import
+        const sr = (await import('scrollreveal')).default;
+        sr().reveal(sectionRef.current, {
+          delay,
+          opacity: 0,
+          origin:
+            move === 'left'
+              ? 'left'
+              : move === 'right'
+              ? 'right'
+              : move === 'top'
+              ? 'top'
+              : 'bottom',
+          distance: '40px',
+          duration: 1500,
+          easing: 'ease-in-out',
+          rotate,
+        });
+      }
+    }
+    animate();
   }, [delay, move, rotate, sectionRef]);
-
-  return <section ref={sectionRef}>{children}</section>;
+  return <div ref={sectionRef}>{children}</div>;
 };
 export default ScrollRevealContainer;

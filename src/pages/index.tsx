@@ -1,6 +1,6 @@
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { NextPage } from 'next';
-import dynamic from 'next/dynamic';
+import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import {
   ArticleLinkLeft,
   ArticleLinkProps,
@@ -10,10 +10,6 @@ import About_toppage from '@/components/templates/About_toppage';
 import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
-
-const ScrollRevealContainer = dynamic(import('@/components/atoms/ScrollRevealContainer'), {
-  ssr: false,
-});
 
 interface Props {
   posts: QueryDatabaseResponse;
