@@ -48,4 +48,21 @@
     transform: translate(20px, -50%) rotate(195deg);
     @apply absolute top-1/2 right-0 w-0 h-0 border-solid;
   }
+
+  /* notions */
+  .notion_link {
+    @apply text-blue-400 underline;
+  }
+  .notion_paragraph {
+    @apply text-sm md:text-base;
+  }
+  .notion_heading_1 {
+    @apply text-xl md:text-3xl;
+  }
+  .notion_heading_2 {
+    @apply text-lg md:text-2xl;
+  }
+  .notion_heading_3 {
+    @apply text-base md:text-xl;
+  }
 }

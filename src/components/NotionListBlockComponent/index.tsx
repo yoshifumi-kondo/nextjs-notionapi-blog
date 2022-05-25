@@ -4,8 +4,7 @@ import Notion_bulleted_list_item from '@/components/NotionListBlockComponent/Not
 import Notion_callout from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_callout';
 import Notion_child_database from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_child_database';
 import Notion_child_page from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_child_page';
-import Notion_divider from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_divider';
-import Notion_embed from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_embed';
+import Notion_code from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_code';
 import Notion_equation from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_equation';
 import Notion_file from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_file';
 import Notion_heading_1 from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_heading_1';
@@ -23,9 +22,10 @@ import { BlockChildrenNodeResponse, ListBlockChildrenNodeResponse } from 'api/no
 
 export interface NotionBlockComponentProps {
   getBlockRes: BlockChildrenNodeResponse;
+  node: number;
 }
 
-export const NotionBlockHandler: FC<NotionBlockComponentProps> = ({ getBlockRes }) => {
+export const NotionBlockHandler: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) => {
   if (!('type' in getBlockRes)) {
     return <></>;
   }
@@ -33,64 +33,69 @@ export const NotionBlockHandler: FC<NotionBlockComponentProps> = ({ getBlockRes 
 
   switch (type) {
     case 'paragraph': {
-      return <Notion_paragraph getBlockRes={getBlockRes} />;
+      return <Notion_paragraph getBlockRes={getBlockRes} node={node} />;
     }
     case 'heading_1': {
-      return <Notion_heading_1 getBlockRes={getBlockRes} />;
+      return <Notion_heading_1 getBlockRes={getBlockRes} node={node} />;
     }
     case 'heading_2': {
-      return <Notion_heading_2 getBlockRes={getBlockRes} />;
+      return <Notion_heading_2 getBlockRes={getBlockRes} node={node} />;
     }
     case 'heading_3': {
-      return <Notion_heading_3 getBlockRes={getBlockRes} />;
+      return <Notion_heading_3 getBlockRes={getBlockRes} node={node} />;
     }
     case 'bulleted_list_item': {
-      return <Notion_bulleted_list_item getBlockRes={getBlockRes} />;
+      return <Notion_bulleted_list_item getBlockRes={getBlockRes} node={node} />;
     }
     case 'numbered_list_item': {
-      return <Notion_numbered_list_item getBlockRes={getBlockRes} />;
+      return <Notion_numbered_list_item getBlockRes={getBlockRes} node={node} />;
     }
     case 'to_do': {
-      return <Notion_to_do getBlockRes={getBlockRes} />;
+      return <Notion_to_do getBlockRes={getBlockRes} node={node} />;
     }
     case 'toggle': {
-      return <Notion_toggle getBlockRes={getBlockRes} />;
+      return <Notion_toggle getBlockRes={getBlockRes} node={node} />;
     }
     case 'child_page': {
-      return <Notion_child_page getBlockRes={getBlockRes} />;
+      return <Notion_child_page getBlockRes={getBlockRes} node={node} />;
     }
     case 'child_database': {
-      return <Notion_child_database getBlockRes={getBlockRes} />;
+      return <Notion_child_database getBlockRes={getBlockRes} node={node} />;
     }
     case 'embed': {
-      return <Notion_embed getBlockRes={getBlockRes} />;
+      // return <Notion_embed getBlockRes={getBlockRes} node={node} />;
+      return <></>;
     }
     case 'image': {
-      return <Notion_image getBlockRes={getBlockRes} />;
+      return <Notion_image getBlockRes={getBlockRes} node={node} />;
     }
     case 'video': {
-      return <Notion_video getBlockRes={getBlockRes} />;
+      return <Notion_video getBlockRes={getBlockRes} node={node} />;
     }
     case 'file': {
-      return <Notion_file getBlockRes={getBlockRes} />;
+      return <Notion_file getBlockRes={getBlockRes} node={node} />;
     }
     case 'pdf': {
-      return <Notion_pdf getBlockRes={getBlockRes} />;
+      return <Notion_pdf getBlockRes={getBlockRes} node={node} />;
     }
     case 'bookmark': {
-      return <Notion_bookmark getBlockRes={getBlockRes} />;
+      return <Notion_bookmark getBlockRes={getBlockRes} node={node} />;
     }
     case 'callout': {
-      return <Notion_callout getBlockRes={getBlockRes} />;
+      return <Notion_callout getBlockRes={getBlockRes} node={node} />;
     }
     case 'quote': {
-      return <Notion_quote getBlockRes={getBlockRes} />;
+      return <Notion_quote getBlockRes={getBlockRes} node={node} />;
+    }
+    case 'code': {
+      return <Notion_code getBlockRes={getBlockRes} node={node} />;
     }
     case 'equation': {
-      return <Notion_equation getBlockRes={getBlockRes} />;
+      return <Notion_equation getBlockRes={getBlockRes} node={node} />;
     }
     case 'divider': {
-      return <Notion_divider getBlockRes={getBlockRes} />;
+      // return <Notion_divider getBlockRes={getBlockRes} node={node} />;
+      return <></>;
     }
     case 'table_of_contents': {
       return <></>;
@@ -122,18 +127,19 @@ export const NotionBlockHandler: FC<NotionBlockComponentProps> = ({ getBlockRes 
 };
 
 export const NotionChildrenLayout: FC<{ children: ReactNode }> = ({ children }) => {
-  return <div className='p-10'>{children}</div>;
+  return <div className='pl-5'>{children}</div>;
 };
 
 interface NotionListBlockComponentProps {
   blocks: ListBlockChildrenNodeResponse;
+  node: number;
 }
 
-const NotionListBlockComponent: FC<NotionListBlockComponentProps> = ({ blocks }) => {
+const NotionListBlockComponent: FC<NotionListBlockComponentProps> = ({ blocks, node }) => {
   return (
     <>
       {blocks.map((block, index: React.Key | null | undefined) => (
-        <NotionBlockHandler getBlockRes={block} key={index} />
+        <NotionBlockHandler getBlockRes={block} key={index} node={node} />
       ))}
     </>
   );

@@ -3,13 +3,13 @@ import NotionListBlockComponent, {
   NotionBlockComponentProps,
   NotionChildrenLayout,
 } from '@/components/NotionListBlockComponent';
-const Notion_pdf: FC<NotionBlockComponentProps> = ({ getBlockRes }) => {
+const Notion_pdf: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) => {
   const type = 'pdf';
   if (!('type' in getBlockRes)) return <></>;
   const { children } = getBlockRes;
   const childrenComp = children ? (
     <NotionChildrenLayout>
-      <NotionListBlockComponent blocks={children} />
+      <NotionListBlockComponent blocks={children} node={node + 1} />
     </NotionChildrenLayout>
   ) : (
     <></>

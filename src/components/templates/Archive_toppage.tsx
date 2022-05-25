@@ -14,8 +14,6 @@ const Archive_toppage: FC = () => {
     return retDateStr;
   });
 
-  console.log(DateArray);
-
   return (
     <div className='border-8 border-slate-700 rounded-lg shadow bg-white w-full p-8'>
       <h1 className='text-2xl text-gray-900 w-full text-center md:text-left'>Archive</h1>

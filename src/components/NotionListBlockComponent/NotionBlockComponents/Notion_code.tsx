@@ -10,9 +10,8 @@ import {
   getStrikethrough,
   getUnderline,
 } from 'lib/getNotionsParamsForCSS';
-
-const Notion_callout: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) => {
-  const type = 'callout';
+const Notion_code: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) => {
+  const type = 'code';
   if (!('type' in getBlockRes)) return <></>;
   const { children } = getBlockRes;
   const childrenComp = children ? (
@@ -23,13 +22,11 @@ const Notion_callout: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) =>
     <></>
   );
   if (getBlockRes.type === type) {
-    const { callout } = getBlockRes;
-    const { rich_text, icon } = callout;
-    const emojiComp = icon?.type === 'emoji' ? <div>{icon.emoji}</div> : <></>;
+    const { code } = getBlockRes;
+    const { rich_text } = code;
     return (
       <>
-        <div className='flex flex-wrap gap-1 p-3 bg-yellow-100 rounded my-2'>
-          {emojiComp}
+        <div className='flex flex-col gap-1  p-4 bg-gray-200 rounded my-2'>
           {rich_text.map((v, i) => {
             const { href, plain_text, annotations } = v;
             const { color, bold, strikethrough, underline } = annotations;
@@ -37,23 +34,25 @@ const Notion_callout: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) =>
             const textBold = getBold(bold);
             const textStrikthrough = getStrikethrough(strikethrough);
             const textUnderline = getUnderline(underline);
+
+            const splitText = plain_text.split(`\n`);
             if (href) {
               return (
                 <Link href={href}>
-                  <a className={`notion_callout notion_link`} key={i}>
+                  <a className={`notion_code notion_link`} key={i}>
                     {plain_text}
                   </a>
                 </Link>
               );
             }
-            return (
-              <p
-                className={`notion_callout ${textColor}  ${textBold} ${textStrikthrough} ${textUnderline}  `}
-                key={i}
+            return splitText.map((text, index) => (
+              <h1
+                className={`notion_code ${textColor}  ${textBold} ${textStrikthrough} ${textUnderline}  `}
+                key={index}
               >
-                {plain_text}
-              </p>
-            );
+                {text}
+              </h1>
+            ));
           })}
         </div>
         {childrenComp}
@@ -63,4 +62,4 @@ const Notion_callout: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) =>
   return <></>;
 };
 
-export default Notion_callout;
+export default Notion_code;
