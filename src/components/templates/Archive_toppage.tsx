@@ -1,9 +1,10 @@
 import * as dateFns from 'date-fns';
 import React, { FC } from 'react';
 import ArchiveLinkButton from '@/components/atoms/ArchibeLinkButton';
+import { NEXT_PUBLIC_START_DATE } from '@/utils/server-constants';
 
 const Archive_toppage: FC = () => {
-  const startDate = new Date('2022-04-01');
+  const startDate = new Date(NEXT_PUBLIC_START_DATE);
   const today = new Date();
 
   const diffDate = dateFns.differenceInCalendarMonths(today, startDate);
@@ -20,7 +21,7 @@ const Archive_toppage: FC = () => {
       <div className='flex flex-col-reverse justify-center md:justify-start flex-wrap gap-2 my-4 items-center md:items-start'>
         {DateArray.map((date, i) => (
           <div key={i}>
-            <ArchiveLinkButton text={date} href={'./'} />
+            <ArchiveLinkButton text={date} href={`/date/${date}/1`} />
           </div>
         ))}
       </div>

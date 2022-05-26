@@ -13,7 +13,10 @@ import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import PagenationFooter from '@/components/templates/PagenationFooter';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
-import { NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE } from '@/utils/server-constants';
+import {
+  NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE,
+  NEXT_PUBLIC_START_DATE,
+} from '@/utils/server-constants';
 import { queryDatabase, retrieveDataBase } from 'api/notion_api';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { originNotionPropertieProps } from 'types/origin-notion-type';
@@ -27,7 +30,7 @@ interface Props {
 
 const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) => {
   const router = useRouter();
-  const { tag } = router.query;
+  const { date } = router.query;
   if (router.isFallback || !posts) {
     return <div>Loding...</div>;
   }
@@ -75,7 +78,7 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
             <PagenationFooter
               pagePosition={pagePosition}
               pageLength={pageLength}
-              basePath={`${tag}`}
+              basePath={`date/${date}`}
             />
           </ScrollRevealContainer>
         </div>
@@ -99,37 +102,50 @@ export default Home;
 
 export async function getStaticPaths() {
   const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
+  const startDate = new Date(NEXT_PUBLIC_START_DATE);
+  const today = new Date();
+  const diffDate = dateFns.differenceInCalendarMonths(today, startDate);
+  const dateArry = Array.from(new Array(diffDate + 1)).map((_v, i) => {
+    const retDate = dateFns.addMonths(startDate, i);
+    const retDateStr = dateFns.format(retDate, 'yyyy-MM');
+    return retDateStr;
+  });
 
-  const page = await retrieveDataBase();
-  const { tags } = page.properties as unknown as originNotionPropertieProps;
   let paths: {
     params: {
       pageNumber: string;
-      tag: string;
+      date: string;
     };
   }[] = [];
-  console.log(tags.multi_select);
-  (tags.multi_select as any).options.map(async (tag: { name: string }) => {
-    const { name } = tag;
-    const allPosts = await queryDatabase({ tagFilter: name });
-    const pageLength = Math.ceil(allPosts.results.length / postsPerPage);
-    const arr = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
-    const retData = arr.map((v) => {
-      return { params: { pageNumber: String(v), tag: name } };
-    });
-    paths.concat(retData);
-  });
+
+  await Promise.all(
+    dateArry.map(async (date) => {
+      const afterDate = dateFns.format(dateFns.subDays(new Date(date), 1), 'yyyy-MM-dd');
+      const beforDate = dateFns.format(dateFns.addMonths(new Date(date), 1), 'yyyy-MM-dd');
+      const allPosts = await queryDatabase({ after_date: afterDate, before_date: beforDate });
+      const pageLength = Math.ceil(allPosts.results.length / postsPerPage);
+      const arr = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
+      const retData = arr.map((v) => {
+        return { params: { pageNumber: String(v), date: date } };
+      });
+      paths.concat(retData);
+    }),
+  );
 
   return { paths, fallback: true };
 }
 
-export const getStaticProps: GetStaticProps<Props, { pageNumber: string; tag: string }> = async ({
+export const getStaticProps: GetStaticProps<Props, { pageNumber: string; date: string }> = async ({
   params,
 }) => {
   const pagePosition = params ? Number(params.pageNumber) : 1;
-  const tagFilter = params?.tag;
+  const date = params ? params.date : '2022-02';
   const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
-  const allPosts = await queryDatabase({ tagFilter });
+  console.log(date);
+  const afterDate = dateFns.format(dateFns.subDays(new Date(date), 1), 'yyyy-MM-dd');
+  const beforDate = dateFns.format(dateFns.addMonths(new Date(date), 1), 'yyyy-MM-dd');
+  const allPosts = await queryDatabase({ after_date: afterDate, before_date: beforDate });
+  console.log(allPosts);
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
     (pagePosition - 1) * postsPerPage,
