@@ -1,6 +1,7 @@
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import * as dateFns from 'date-fns';
 import { GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import {
   ArticleLinkLeft,
@@ -12,6 +13,7 @@ import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import PagenationFooter from '@/components/templates/PagenationFooter';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
+import { NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE } from '@/utils/server-constants';
 import { queryDatabase, retrieveDataBase } from 'api/notion_api';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { originNotionPropertieProps } from 'types/origin-notion-type';
@@ -24,13 +26,16 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) => {
+  const router = useRouter();
+  if (router.isFallback || !posts) {
+    return <div>Loding...</div>;
+  }
   const articleArray: ArticleLinkProps[] = posts.results.map((post) => {
     if ('properties' in post) {
       const { created_time, id } = post;
       const properties = post.properties as unknown as originNotionPropertieProps;
       const { Page, tags } = properties;
       const title = Page.title.map((v) => v.plain_text).toString();
-
       const date = dateFns.format(new Date(created_time), 'yyyy-MM-dd');
       const href = `/article/${id}`;
       const tagArray = tags.multi_select.map((v) => {
@@ -84,9 +89,20 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
 
 export default Home;
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const pagePosition = 1;
-  const postsPerPage = 2;
+export async function getStaticPaths() {
+  const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
+  const allPosts = await queryDatabase({});
+  const pageLength = Math.ceil(allPosts.results.length / postsPerPage);
+  const arr = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
+  const paths = arr.map((v) => {
+    return { params: { pageNumber: String(v) } };
+  });
+  return { paths, fallback: true };
+}
+
+export const getStaticProps: GetStaticProps<Props, { pageNumber: string }> = async ({ params }) => {
+  const pagePosition = params ? Number(params.pageNumber) : 1;
+  const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
   const allPosts = await queryDatabase({});
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
