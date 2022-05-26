@@ -157,5 +157,6 @@ export const getStaticProps: GetStaticProps<Props, { pageNumber: string; date: s
       posts,
       tags: options,
     },
+    revalidate: 3,
   };
 };
