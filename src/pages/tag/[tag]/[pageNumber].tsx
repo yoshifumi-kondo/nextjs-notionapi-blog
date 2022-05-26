@@ -36,10 +36,7 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
       const { created_time, id } = post;
       const properties = post.properties as unknown as originNotionPropertieProps;
       const { Page, tags } = properties;
-      const title = Page.title
-        .map((v) => v.plain_text)
-        .toString()
-        .replaceAll(',', '');
+      const title = Page.title.map((v) => v.plain_text).toString();
       const date = dateFns.format(new Date(created_time), 'yyyy-MM-dd');
       const href = `/article/${id}`;
       const tagArray = tags.multi_select.map((v) => {
