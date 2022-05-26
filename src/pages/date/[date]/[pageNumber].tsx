@@ -141,11 +141,9 @@ export const getStaticProps: GetStaticProps<Props, { pageNumber: string; date: s
   const pagePosition = params ? Number(params.pageNumber) : 1;
   const date = params ? params.date : '2022-02';
   const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
-  console.log(date);
   const afterDate = dateFns.format(dateFns.subDays(new Date(date), 1), 'yyyy-MM-dd');
   const beforDate = dateFns.format(dateFns.addMonths(new Date(date), 1), 'yyyy-MM-dd');
   const allPosts = await queryDatabase({ after_date: afterDate, before_date: beforDate });
-  console.log(allPosts);
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
     (pagePosition - 1) * postsPerPage,

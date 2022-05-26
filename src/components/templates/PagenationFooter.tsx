@@ -10,7 +10,7 @@ interface PagenationFooterProps {
 const PagenationFooter: FC<PagenationFooterProps> = ({
   pageLength,
   pagePosition = 1,
-  basePath = '/pagenation',
+  basePath = 'pagenation',
 }) => {
   const sampleArray = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
   const hooterArray: Array<'...' | number> =
