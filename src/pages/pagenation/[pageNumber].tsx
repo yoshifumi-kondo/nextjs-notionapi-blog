@@ -120,5 +120,6 @@ export const getStaticProps: GetStaticProps<Props, { pageNumber: string }> = asy
       posts,
       tags: options,
     },
+    revalidate: 3,
   };
 };
