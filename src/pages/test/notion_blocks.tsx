@@ -5,8 +5,8 @@ import TagButton from '@/components/atoms/TagButton';
 import About_toppage from '@/components/templates/About_toppage';
 import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
-import Tags_toppage from '@/components/templates/Tagas_toppage';
 import { ListBlockChildrenNodeResponse, retriveBlocksWithChildren } from 'api/notion_api';
+import { notionColor } from 'lib/getNotionsParamsForCSS';
 
 interface PagePrpps {
   blocks: ListBlockChildrenNodeResponse;
@@ -14,7 +14,7 @@ interface PagePrpps {
 
 const Page: FC<PagePrpps> = ({ blocks }) => {
   const title = 'This is sample title';
-  const tags = ['AWS', 'CSS'];
+  const tags: { name: string; color: notionColor }[] = [];
   return (
     <Layout title='KONTACO-BLOG'>
       <div className='flex flex-col md:flex-row w-screen mt-4 md:mt-8'>
@@ -29,7 +29,7 @@ const Page: FC<PagePrpps> = ({ blocks }) => {
                 </div>
                 <div className='flex gap-2 my-2'>
                   {tags.map((tag, index) => {
-                    return <TagButton text={tag} key={index} />;
+                    return <TagButton text={tag.name} key={index} color={tag.color} />;
                   })}
                 </div>
               </div>
@@ -46,7 +46,7 @@ const Page: FC<PagePrpps> = ({ blocks }) => {
             <About_toppage />
           </ScrollRevealContainer>
           <ScrollRevealContainer move={'bottom'} delay={600}>
-            <Tags_toppage />
+            {/* <Tags_toppage /> */}
           </ScrollRevealContainer>
           <ScrollRevealContainer move={'bottom'} delay={1000}>
             <Archive_toppage />

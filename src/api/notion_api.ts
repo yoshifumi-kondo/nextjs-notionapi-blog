@@ -46,7 +46,7 @@ export const queryDatabase = async (
   params.filter = {
     and: [
       {
-        property: 'Status',
+        property: 'status',
         select: {
           equals: 'published',
         },
@@ -55,7 +55,7 @@ export const queryDatabase = async (
   };
 
   if (tagFilter) {
-    params.filter.and.push({ property: 'Tags', multi_select: { contains: tagFilter } });
+    params.filter.and.push({ property: 'tags', multi_select: { contains: tagFilter } });
   }
 
   if (before_date) {
