@@ -89,7 +89,7 @@ export default Home;
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const pagePosition = 1;
   const postsPerPage = 2;
-  const allPosts = await queryDatabase();
+  const allPosts = await queryDatabase({});
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
     (pagePosition - 1) * postsPerPage,

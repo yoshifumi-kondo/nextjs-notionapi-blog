@@ -10,7 +10,7 @@ interface TagButtonProps {
 const TagButton: FC<TagButtonProps> = ({ text, color }) => {
   const classColor = getBgColor(color);
   return (
-    <Link href={`/tagfilter/${text}/1`} passHref>
+    <Link href={`/${text}/1`} passHref>
       {/* the under tag is for set css don't remove  */}
       {/* <div className='bg-gray-500 bg-orange-500 bg-yellow-500 bg-blue-500 bg-purple-500 bg-pink-500 bg-red-500 bg-amber-500 bg-gray-900'></div> */}
       <button

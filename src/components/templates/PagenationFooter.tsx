@@ -4,9 +4,14 @@ import React, { FC } from 'react';
 interface PagenationFooterProps {
   pageLength: number;
   pagePosition: number;
+  basePath?: string;
 }
 
-const PagenationFooter: FC<PagenationFooterProps> = ({ pageLength, pagePosition = 1 }) => {
+const PagenationFooter: FC<PagenationFooterProps> = ({
+  pageLength,
+  pagePosition = 1,
+  basePath = '/pagenation',
+}) => {
   const sampleArray = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
   const hooterArray: Array<'...' | number> =
     pageLength > 10 && (3 > pagePosition || pagePosition > pageLength - 3)
@@ -25,7 +30,7 @@ const PagenationFooter: FC<PagenationFooterProps> = ({ pageLength, pagePosition 
   return (
     <div className='flex md:gap-5 gap-1 flex-wrap justify-center items-center'>
       {pagePosition !== 1 && (
-        <Link href={`./${String(pagePosition - 1)}`}>
+        <Link href={`/${basePath}/${String(pagePosition - 1)}`}>
           <a>
             <button className=' rounded-full  border-4 border-yellow-500 bg-white text-xl text-yellow-500 w-8 h-8 md:w-10 md:h-10 hover:scale-110 flex justify-center items-center transform ease-in-out duration-200 hover:bg-yellow-500 hover:text-white group'>
               <svg
@@ -73,7 +78,7 @@ const PagenationFooter: FC<PagenationFooterProps> = ({ pageLength, pagePosition 
           pageLength > 4
         ) {
           return (
-            <Link href={`./${String(v)}`}>
+            <Link href={`/${basePath}/${String(v)}`}>
               <a>
                 <button
                   className=' hidden md:block rounded-full  border-4 border-yellow-500 bg-white text-xl text-yellow-500 w-10 h-10 md:w-12 md:h-12 hover:scale-110 transform ease-in-out duration-200 hover:bg-yellow-500 hover:text-white'
@@ -87,7 +92,7 @@ const PagenationFooter: FC<PagenationFooterProps> = ({ pageLength, pagePosition 
         }
 
         return (
-          <Link href={`./${String(v)}`} key={i}>
+          <Link href={`/${basePath}/${String(v)}`} key={i}>
             <a>
               <button
                 className=' rounded-full  border-4 border-yellow-500 bg-white text-xl text-yellow-500 w-10 h-10 md:w-12 md:h-12 hover:scale-110 transform ease-in-out duration-200 hover:bg-yellow-500 hover:text-white'
@@ -100,7 +105,7 @@ const PagenationFooter: FC<PagenationFooterProps> = ({ pageLength, pagePosition 
         );
       })}
       {pagePosition !== pageLength && (
-        <Link href={`./${String(pagePosition + 1)}`}>
+        <Link href={`/${basePath}/${String(pagePosition + 1)}`}>
           <a>
             <button className=' rounded-full  border-4 border-yellow-500 bg-white text-xl text-yellow-500 w-8 h-8 md:w-10 md:h-10 hover:scale-110 flex justify-center items-center transform ease-in-out duration-200 hover:bg-yellow-500 hover:text-white group'>
               <svg

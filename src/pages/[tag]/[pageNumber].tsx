@@ -27,6 +27,7 @@ interface Props {
 
 const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) => {
   const router = useRouter();
+  const { tag } = router.query;
   if (router.isFallback || !posts) {
     return <div>Loding...</div>;
   }
@@ -71,7 +72,11 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
             );
           })}
           <ScrollRevealContainer move={'bottom'} delay={200}>
-            <PagenationFooter pagePosition={pagePosition} pageLength={pageLength} />
+            <PagenationFooter
+              pagePosition={pagePosition}
+              pageLength={pageLength}
+              basePath={`${tag}`}
+            />
           </ScrollRevealContainer>
         </div>
         <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>
@@ -94,19 +99,37 @@ export default Home;
 
 export async function getStaticPaths() {
   const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
-  const allPosts = await queryDatabase({});
-  const pageLength = Math.ceil(allPosts.results.length / postsPerPage);
-  const arr = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
-  const paths = arr.map((v) => {
-    return { params: { pageNumber: String(v) } };
+
+  const page = await retrieveDataBase();
+  const { tags } = page.properties as unknown as originNotionPropertieProps;
+  let paths: {
+    params: {
+      pageNumber: string;
+      tag: string;
+    };
+  }[] = [];
+  console.log(tags.multi_select);
+  (tags.multi_select as any).options.map(async (tag: { name: string }) => {
+    const { name } = tag;
+    const allPosts = await queryDatabase({ tagFilter: name });
+    const pageLength = Math.ceil(allPosts.results.length / postsPerPage);
+    const arr = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
+    const retData = arr.map((v) => {
+      return { params: { pageNumber: String(v), tag: name } };
+    });
+    paths.concat(retData);
   });
+
   return { paths, fallback: true };
 }
 
-export const getStaticProps: GetStaticProps<Props, { pageNumber: string }> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props, { pageNumber: string; tag: string }> = async ({
+  params,
+}) => {
   const pagePosition = params ? Number(params.pageNumber) : 1;
+  const tagFilter = params?.tag;
   const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
-  const allPosts = await queryDatabase({});
+  const allPosts = await queryDatabase({ tagFilter });
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
     (pagePosition - 1) * postsPerPage,
