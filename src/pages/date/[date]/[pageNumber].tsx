@@ -1,6 +1,7 @@
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import * as dateFns from 'date-fns';
 import { GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import {
   ArticleLinkLeft,
@@ -12,6 +13,10 @@ import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import PagenationFooter from '@/components/templates/PagenationFooter';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
+import {
+  NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE,
+  NEXT_PUBLIC_START_DATE,
+} from '@/utils/server-constants';
 import { queryDatabase, retrieveDataBase } from 'api/notion_api';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { originNotionPropertieProps } from 'types/origin-notion-type';
@@ -24,6 +29,11 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) => {
+  const router = useRouter();
+  const { date } = router.query;
+  if (router.isFallback || !posts) {
+    return <div>Loding...</div>;
+  }
   const articleArray: ArticleLinkProps[] = posts.results.map((post) => {
     if ('properties' in post) {
       const { created_time, id } = post;
@@ -65,7 +75,11 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
             );
           })}
           <ScrollRevealContainer move={'bottom'} delay={200}>
-            <PagenationFooter pagePosition={pagePosition} pageLength={pageLength} />
+            <PagenationFooter
+              pagePosition={pagePosition}
+              pageLength={pageLength}
+              basePath={`date/${date}`}
+            />
           </ScrollRevealContainer>
         </div>
         <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>
@@ -86,10 +100,50 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
 
 export default Home;
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const pagePosition = 1;
-  const postsPerPage = 2;
-  const allPosts = await queryDatabase({});
+export async function getStaticPaths() {
+  const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
+  const startDate = new Date(NEXT_PUBLIC_START_DATE);
+  const today = new Date();
+  const diffDate = dateFns.differenceInCalendarMonths(today, startDate);
+  const dateArry = Array.from(new Array(diffDate + 1)).map((_v, i) => {
+    const retDate = dateFns.addMonths(startDate, i);
+    const retDateStr = dateFns.format(retDate, 'yyyy-MM');
+    return retDateStr;
+  });
+
+  let paths: {
+    params: {
+      pageNumber: string;
+      date: string;
+    };
+  }[] = [];
+
+  await Promise.all(
+    dateArry.map(async (date) => {
+      const afterDate = dateFns.format(dateFns.subDays(new Date(date), 1), 'yyyy-MM-dd');
+      const beforDate = dateFns.format(dateFns.addMonths(new Date(date), 1), 'yyyy-MM-dd');
+      const allPosts = await queryDatabase({ after_date: afterDate, before_date: beforDate });
+      const pageLength = Math.ceil(allPosts.results.length / postsPerPage);
+      const arr = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
+      const retData = arr.map((v) => {
+        return { params: { pageNumber: String(v), date: date } };
+      });
+      paths.concat(retData);
+    }),
+  );
+
+  return { paths, fallback: true };
+}
+
+export const getStaticProps: GetStaticProps<Props, { pageNumber: string; date: string }> = async ({
+  params,
+}) => {
+  const pagePosition = params ? Number(params.pageNumber) : 1;
+  const date = params ? params.date : '2022-02';
+  const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
+  const afterDate = dateFns.format(dateFns.subDays(new Date(date), 1), 'yyyy-MM-dd');
+  const beforDate = dateFns.format(dateFns.addMonths(new Date(date), 1), 'yyyy-MM-dd');
+  const allPosts = await queryDatabase({ after_date: afterDate, before_date: beforDate });
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
     (pagePosition - 1) * postsPerPage,

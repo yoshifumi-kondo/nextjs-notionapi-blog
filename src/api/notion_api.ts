@@ -29,13 +29,21 @@ export const retrieveDataBase = async () => {
  * you sould fix your notion's properties or arges properties.
  * https://developers.notion.com/reference/post-database-query
  */
-export const queryDatabase = async (
-  pageSize = 10,
-  start_cursor?: string,
-  tagFilter?: string,
-  after_date?: string,
-  before_date?: string,
-) => {
+
+interface queryDatabaseProps {
+  pageSize?: number;
+  start_cursor?: string;
+  tagFilter?: string;
+  after_date?: string;
+  before_date?: string;
+}
+export const queryDatabase = async ({
+  pageSize,
+  start_cursor,
+  tagFilter,
+  after_date,
+  before_date,
+}: queryDatabaseProps) => {
   const params: QueryDatabaseParameters = {
     database_id,
     page_size: pageSize,
@@ -46,7 +54,7 @@ export const queryDatabase = async (
   params.filter = {
     and: [
       {
-        property: 'Status',
+        property: 'status',
         select: {
           equals: 'published',
         },
@@ -55,7 +63,7 @@ export const queryDatabase = async (
   };
 
   if (tagFilter) {
-    params.filter.and.push({ property: 'Tags', multi_select: { contains: tagFilter } });
+    params.filter.and.push({ property: 'tags', multi_select: { contains: tagFilter } });
   }
 
   if (before_date) {

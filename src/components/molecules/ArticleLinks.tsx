@@ -3,11 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { FC } from 'react';
 import TagButton from '@/components/atoms/TagButton';
+import { notionColor } from 'lib/getNotionsParamsForCSS';
 
 export interface ArticleLinkProps {
   title: string;
   href: string | URL;
-  tags: string[];
+  tags: { name: string; color: notionColor }[];
   date: string;
 }
 
@@ -23,7 +24,7 @@ export const ArticleLinkLeft: FC<ArticleLinkProps> = ({ title, href, tags, date 
           <h1 className='text-base  md:text-xl'>{title}</h1>
           <div className='flex w-full gap-3 flex-wrap'>
             {tags.map((tag, index) => {
-              return <TagButton text={tag} key={index} />;
+              return <TagButton text={tag.name} key={index} color={tag.color} />;
             })}
           </div>
         </div>
@@ -41,7 +42,7 @@ export const ArticleLinkRight: FC<ArticleLinkProps> = ({ title, href, tags, date
           <h1 className='text-base  md:text-xl'>{title}</h1>
           <div className='flex w-full gap-3 flex-wrap'>
             {tags.map((tag, index) => {
-              return <TagButton text={tag} key={index} />;
+              return <TagButton text={tag.name} key={index} color={tag.color} />;
             })}
           </div>
         </div>

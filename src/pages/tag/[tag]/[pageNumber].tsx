@@ -1,6 +1,7 @@
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import * as dateFns from 'date-fns';
 import { GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import {
   ArticleLinkLeft,
@@ -12,6 +13,7 @@ import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import PagenationFooter from '@/components/templates/PagenationFooter';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
+import { NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE } from '@/utils/server-constants';
 import { queryDatabase, retrieveDataBase } from 'api/notion_api';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { originNotionPropertieProps } from 'types/origin-notion-type';
@@ -24,6 +26,11 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) => {
+  const router = useRouter();
+  const { tag } = router.query;
+  if (router.isFallback || !posts) {
+    return <div>Loding...</div>;
+  }
   const articleArray: ArticleLinkProps[] = posts.results.map((post) => {
     if ('properties' in post) {
       const { created_time, id } = post;
@@ -65,7 +72,11 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
             );
           })}
           <ScrollRevealContainer move={'bottom'} delay={200}>
-            <PagenationFooter pagePosition={pagePosition} pageLength={pageLength} />
+            <PagenationFooter
+              pagePosition={pagePosition}
+              pageLength={pageLength}
+              basePath={`tag/${tag}`}
+            />
           </ScrollRevealContainer>
         </div>
         <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>
@@ -86,10 +97,38 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
 
 export default Home;
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const pagePosition = 1;
-  const postsPerPage = 2;
-  const allPosts = await queryDatabase({});
+export async function getStaticPaths() {
+  const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
+
+  const page = await retrieveDataBase();
+  const { tags } = page.properties as unknown as originNotionPropertieProps;
+  let paths: {
+    params: {
+      pageNumber: string;
+      tag: string;
+    };
+  }[] = [];
+  (tags.multi_select as any).options.map(async (tag: { name: string }) => {
+    const { name } = tag;
+    const allPosts = await queryDatabase({ tagFilter: name });
+    const pageLength = Math.ceil(allPosts.results.length / postsPerPage);
+    const arr = Array.from(new Array(pageLength)).map((_v, i) => i + 1);
+    const retData = arr.map((v) => {
+      return { params: { pageNumber: String(v), tag: name } };
+    });
+    paths.concat(retData);
+  });
+
+  return { paths, fallback: true };
+}
+
+export const getStaticProps: GetStaticProps<Props, { pageNumber: string; tag: string }> = async ({
+  params,
+}) => {
+  const pagePosition = params ? Number(params.pageNumber) : 1;
+  const tagFilter = params?.tag;
+  const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
+  const allPosts = await queryDatabase({ tagFilter });
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
     (pagePosition - 1) * postsPerPage,
