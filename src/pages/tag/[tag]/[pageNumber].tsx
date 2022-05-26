@@ -142,5 +142,6 @@ export const getStaticProps: GetStaticProps<Props, { pageNumber: string; tag: st
       posts,
       tags: options,
     },
+    revalidate: 3,
   };
 };

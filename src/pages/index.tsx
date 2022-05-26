@@ -104,5 +104,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       posts,
       tags: options,
     },
+    revalidate: 3,
   };
 };
