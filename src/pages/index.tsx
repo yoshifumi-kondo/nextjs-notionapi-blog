@@ -9,6 +9,7 @@ import {
 import About_toppage from '@/components/templates/About_toppage';
 import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
+import PagenationFooter from '@/components/templates/PagenationFooter';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
 
 interface Props {
@@ -74,7 +75,7 @@ const Home: NextPage<Props> = ({ posts }) => {
   return (
     <Layout title='KONTACO-BLOG'>
       <div className='flex flex-col md:flex-row w-screen mt-8'>
-        <div className='w-screen md:w-2/3  border-r-2 p-4 md:p-8 flex flex-col gap-8'>
+        <div className='w-screen md:w-2/3  border-r-2 p-4 md:p-8 flex flex-col gap-8 overflow-hidden'>
           {sampleArticle.map((aricle, index) => {
             const { title, href, tags, date } = aricle;
             const delay = 5 > index ? index * 200 : 200;
@@ -91,6 +92,7 @@ const Home: NextPage<Props> = ({ posts }) => {
               </ScrollRevealContainer>
             );
           })}
+          <PagenationFooter />
         </div>
         <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>
           <ScrollRevealContainer move={'bottom'} delay={200}>
