@@ -12,6 +12,7 @@ import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import PagenationFooter from '@/components/templates/PagenationFooter';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
+import { NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE } from '@/utils/server-constants';
 import { queryDatabase, retrieveDataBase } from 'api/notion_api';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { originNotionPropertieProps } from 'types/origin-notion-type';
@@ -86,7 +87,7 @@ export default Home;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const pagePosition = 1;
-  const postsPerPage = 2;
+  const postsPerPage = NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE;
   const allPosts = await queryDatabase({});
   const posts = { ...allPosts };
   posts.results = allPosts.results.slice(
