@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { FC, ReactNode } from 'react';
 import PageLinks from '@/components/organisms/PageLinks';
 import Sidebar from '@/components/organisms/Sidebar';
@@ -19,18 +20,24 @@ const Layout: FC<LayoutProps> = ({ children, title }) => {
       <header>
         <nav className={'bg-gray-800 w-screen overflow-hidden fixed left-0 top-0 shadow-lg z-50'}>
           <div className={'flex space-x-4 py-2 justify-between items-center h-16 px-4 md:px-8'}>
-            <div className={'flex justify-around gap-4 items-center rounded'}>
-              <div className='h-12 w-12 '>
-                <Image
-                  src={'/icon_outline.png'}
-                  width={200}
-                  height={200}
-                  alt={'icon'}
-                  objectFit={'contain'}
-                />
-              </div>
-              <h2 className={'text-gray-100 text-xl font-mono whitespace-nowrap'}>KONTACO BLOG</h2>
-            </div>
+            <Link href={'/'}>
+              <a>
+                <div className={'flex justify-around gap-4 items-center rounded'}>
+                  <div className='h-12 w-12 '>
+                    <Image
+                      src={'/icon_outline.png'}
+                      width={200}
+                      height={200}
+                      alt={'icon'}
+                      objectFit={'contain'}
+                    />
+                  </div>
+                  <h2 className={'text-gray-100 text-xl font-mono whitespace-nowrap'}>
+                    KONTACO BLOG
+                  </h2>
+                </div>
+              </a>
+            </Link>
             <div className='md:hidden'>
               <Sidebar />
             </div>
