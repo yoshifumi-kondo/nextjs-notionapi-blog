@@ -46,7 +46,7 @@ const Notion_paragraph: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) 
             }
             return (
               <p
-                className={`notion_paragraph ${textColor}  ${textStrikthrough} ${textUnderline}  ${textBold}   `}
+                className={`notion_paragraph ${textColor}  ${textStrikthrough} ${textUnderline}  ${textBold} `}
                 key={i}
               >
                 {plain_text}
