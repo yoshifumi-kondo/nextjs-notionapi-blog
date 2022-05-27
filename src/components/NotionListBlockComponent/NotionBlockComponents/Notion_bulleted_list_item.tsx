@@ -48,12 +48,11 @@ const Notion_bulleted_list_item: FC<NotionBlockComponentProps> = ({ getBlockRes,
             }
             return (
               <>
-                <p>{icon}</p>
                 <p
                   className={`notion_bulleted_list_item ${textColor}  ${textBold} ${textStrikthrough} ${textUnderline}  `}
                   key={i}
                 >
-                  {plain_text}
+                  {icon} {plain_text}
                 </p>
               </>
             );
