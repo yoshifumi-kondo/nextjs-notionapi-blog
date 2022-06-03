@@ -47,7 +47,7 @@ const Notion_code: FC<NotionBlockComponentProps> = ({ getBlockRes, node }) => {
             }
             return splitText.map((text, index) => (
               <h1
-                className={`notion_code ${textColor}  ${textBold} ${textStrikthrough} ${textUnderline}  `}
+                className={`notion_code ${textColor}  ${textBold} ${textStrikthrough} ${textUnderline}`}
                 key={index}
               >
                 {text}
