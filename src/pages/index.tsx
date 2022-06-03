@@ -46,10 +46,10 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
   return (
     <Layout title='KONTACO-BLOG'>
       <div className='flex flex-col md:flex-row w-screen mt-8'>
-        <div className='w-screen md:w-2/3  border-r-2 p-4 md:p-8 flex flex-col gap-8 overflow-hidden'>
+        <div className='w-screen md:w-2/3  border-r-2 p-4 pt-8 md:p-8 flex flex-col gap-8 overflow-hidden'>
           {articleArray.map((aricle, index) => {
             const { title, href, tags, date } = aricle;
-            const delay = 5 > index ? index * 200 : 200;
+            const delay = 5 > index ? index * 100 : 100;
             if (index % 2) {
               return (
                 <ScrollRevealContainer move='right' delay={delay} key={index}>
@@ -71,10 +71,10 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
           <ScrollRevealContainer move={'bottom'} delay={200}>
             <About_toppage />
           </ScrollRevealContainer>
-          <ScrollRevealContainer move={'bottom'} delay={600}>
+          <ScrollRevealContainer move={'bottom'} delay={200}>
             <Tags_toppage tags={tags} />
           </ScrollRevealContainer>
-          <ScrollRevealContainer move={'bottom'} delay={1000}>
+          <ScrollRevealContainer move={'bottom'} delay={200}>
             <Archive_toppage />
           </ScrollRevealContainer>
         </div>

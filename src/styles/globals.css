@@ -53,6 +53,9 @@
   .notion_link {
     @apply text-blue-400 underline break-all;
   }
+  .notion_code {
+    @apply text-xs md:text-sm break-all whitespace-pre-wrap;
+  }
   .notion_paragraph {
     @apply text-sm md:text-base;
   }

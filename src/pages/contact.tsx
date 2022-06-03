@@ -16,12 +16,12 @@ const contact: NextPage = () => {
           </ScrollRevealContainer>
         </div>
         <div className=' max-w-xl'>
-          <ScrollRevealContainer delay={500}>
+          <ScrollRevealContainer delay={300}>
             <TechStack_toppage />
           </ScrollRevealContainer>
         </div>
         <div className=' max-w-xl'>
-          <ScrollRevealContainer delay={800}>
+          <ScrollRevealContainer delay={400}>
             <Contact_info />
           </ScrollRevealContainer>
         </div>
