@@ -17,8 +17,8 @@ import {
   NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE,
   NEXT_PUBLIC_START_DATE,
 } from '@/utils/server-constants';
-import { queryDatabase, retrieveDataBase } from 'api/notion_api';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
+import { queryDatabase, retrieveDataBase } from 'pages/api/notion_api';
 import { originNotionPropertieProps } from 'types/origin-notion-type';
 
 interface Props {
