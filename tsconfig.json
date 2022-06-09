@@ -23,6 +23,6 @@
       "@/utils/*": ["./utils/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/api/notion/server-constants.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/notion/server-constants.js"],
   "exclude": ["node_modules"]
 }
