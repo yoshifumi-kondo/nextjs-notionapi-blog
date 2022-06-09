@@ -18,8 +18,7 @@ import Notion_quote from '@/components/NotionListBlockComponent/NotionBlockCompo
 import Notion_to_do from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_to_do';
 import Notion_toggle from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_toggle';
 import Notion_video from '@/components/NotionListBlockComponent/NotionBlockComponents/Notion_video';
-import { BlockChildrenNodeResponse, ListBlockChildrenNodeResponse } from 'api/notion_api';
-
+import { BlockChildrenNodeResponse, ListBlockChildrenNodeResponse } from 'pages/api/notion_api';
 export interface NotionBlockComponentProps {
   getBlockRes: BlockChildrenNodeResponse;
   node: number;

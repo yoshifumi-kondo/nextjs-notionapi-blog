@@ -10,14 +10,14 @@ import About_toppage from '@/components/templates/About_toppage';
 import Archive_toppage from '@/components/templates/Archive_toppage';
 import Layout from '@/components/templates/Layout';
 import Tags_toppage from '@/components/templates/Tagas_toppage';
+import { notionColor } from 'lib/getNotionsParamsForCSS';
 import {
   ListBlockChildrenNodeResponse,
   retriveBlocksWithChildren,
   queryDatabase,
   retrieveDataBase,
   retrivePage,
-} from 'api/notion_api';
-import { notionColor } from 'lib/getNotionsParamsForCSS';
+} from 'pages/api/notion_api';
 import {
   originNotionPagePropertieProps,
   originNotionPropertieProps,
