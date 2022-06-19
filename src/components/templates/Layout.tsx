@@ -16,6 +16,11 @@ const Layout: FC<LayoutProps> = ({ children, title }) => {
       <Head>
         <title>{title}</title>
         <link rel='shortcut icon' href='/icon.png' />
+        <link rel='apple-touch-icon' sizes='180x180' href='/icon.png' />
+        <link rel='icon' type='image/png' sizes='32x32' href='/icon.png' />
+        <link rel='icon' type='image/png' sizes='16x16' href='/icon.png' />
+        <link rel='manifest' href='/icon.png' />
+        <link rel='mask-icon' href='/icon.png' />
       </Head>
       <header>
         <nav className={'bg-gray-800 w-screen overflow-hidden fixed left-0 top-0 shadow-lg z-50'}>
