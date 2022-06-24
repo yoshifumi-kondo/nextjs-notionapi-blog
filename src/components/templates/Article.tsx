@@ -5,17 +5,15 @@ import React, { FC } from 'react';
 import NotionListBlockComponent from '@/components/NotionListBlockComponent';
 import ScrollRevealContainer from '@/components/atoms/ScrollRevealContainer';
 import TagButton from '@/components/atoms/TagButton';
-import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { ListBlockChildrenNodeResponse } from 'pages/api/notion_api';
 import { originNotionPagePropertieProps } from 'types/origin-notion-type';
 
 interface ArticleProps {
   page: GetPageResponse;
   blocks: ListBlockChildrenNodeResponse;
-  tags: { name: string; color: notionColor }[];
 }
 
-const Article: FC<ArticleProps> = ({ page, blocks, tags }) => {
+const Article: FC<ArticleProps> = ({ page, blocks }) => {
   const router = useRouter();
   if (router.isFallback || !blocks) {
     return <div>Loding...</div>;
