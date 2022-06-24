@@ -8,11 +8,11 @@ import {
   ArticleLinkProps,
   ArticleLinkRight,
 } from '@/components/molecules/ArticleLinks';
-import About_toppage from '@/components/templates/About_toppage';
-import Archive_toppage from '@/components/templates/Archive_toppage';
+import About_toppage from '@/components/organisms/About_toppage';
+import Archive_toppage from '@/components/organisms/Archive_toppage';
+import Tags_toppage from '@/components/organisms/Tagas_toppage';
 import Layout from '@/components/templates/Layout';
 import PagenationFooter from '@/components/templates/PagenationFooter';
-import Tags_toppage from '@/components/templates/Tagas_toppage';
 import { NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE } from '@/utils/server-constants';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { queryDatabase, retrieveDataBase } from 'pages/api/notion_api';

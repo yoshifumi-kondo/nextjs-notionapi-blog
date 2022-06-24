@@ -7,11 +7,9 @@ import {
   ArticleLinkProps,
   ArticleLinkRight,
 } from '@/components/molecules/ArticleLinks';
-import About_toppage from '@/components/templates/About_toppage';
-import Archive_toppage from '@/components/templates/Archive_toppage';
+import About from '@/components/templates/About';
 import Layout from '@/components/templates/Layout';
 import PagenationFooter from '@/components/templates/PagenationFooter';
-import Tags_toppage from '@/components/templates/Tagas_toppage';
 import { NEXT_PUBLIC_NUMBER_OF_POSTS_PER_PAGE } from '@/utils/server-constants';
 import { notionColor } from 'lib/getNotionsParamsForCSS';
 import { queryDatabase, retrieveDataBase } from 'pages/api/notion_api';
@@ -68,15 +66,7 @@ const Home: NextPage<Props> = ({ pageLength, pagePosition = 1, posts, tags }) =>
           </ScrollRevealContainer>
         </div>
         <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>
-          <ScrollRevealContainer move={'bottom'} delay={200}>
-            <About_toppage />
-          </ScrollRevealContainer>
-          <ScrollRevealContainer move={'bottom'} delay={200}>
-            <Tags_toppage tags={tags} />
-          </ScrollRevealContainer>
-          <ScrollRevealContainer move={'bottom'} delay={200}>
-            <Archive_toppage />
-          </ScrollRevealContainer>
+          <About tags={tags} />
         </div>
       </div>
     </Layout>
