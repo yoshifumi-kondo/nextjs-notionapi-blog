@@ -26,14 +26,18 @@ interface PagePrpps {
 const Page: FC<PagePrpps> = ({ page, blocks, tags, err }) => {
   const router = useRouter();
   if (router.isFallback || !blocks) {
-    return <div>Loding...</div>;
+    return (
+      <Layout title='KONTACO-BLOG'>
+        <div>Loding...</div>
+      </Layout>
+    );
   }
 
   return (
     <Layout title='KONTACO-BLOG'>
       <div className='flex flex-col md:flex-row w-screen mt-4 md:mt-8'>
         <div className='w-screen md:w-2/3  border-r-2 p-4 flex flex-col gap-8'>
-          {err ? <Article_error /> : <Article page={page} blocks={blocks} tags={tags} />}
+          {err ? <Article_error /> : <Article page={page} blocks={blocks} />}
         </div>
 
         <div className='w-screen md:w-1/3 border-r-2 border-white p-4  flex flex-col gap-8'>

@@ -7,9 +7,9 @@ const Article_error: FC = () => {
       <div className='px-4 md:px-8 pt-8 pb-4 bg-slate-700 flex flex-col gap-2'>
         <h1 className='text-2xl md:text-4xl text-white'>{'Sorry this post is not exist.'}</h1>
       </div>
-      <div className='flex flex-col gap-2 my-2 h-20 p-4 md:p-8'>
+      <div className='flex flex-col gap-2 my-2 p-4 md:p-8'>
         <h2 className={'text-gray-800 text-xl font-mono whitespace-nowrap'}>
-          Please checkout athor posts
+          Please checkout other posts
         </h2>
         <Link href={'/'}>
           <a>
